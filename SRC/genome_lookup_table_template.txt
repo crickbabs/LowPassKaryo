@@ -1,0 +1,5 @@
+Tag	Description	Species	Reference_Path	QDNAseq_Annotated_Bins_Path
+Species_name_included_in_design_file	Build_specific_name_of_reference	Generic_Species_Name	/absolute/path/to/reference/sequence/suitable/for/your/aligner/genome.fa	/absolute/path/to/the/QDNASeq/annotation/Rdata/file/for/this/genome/QDNAseq-bin_binsize.RDat
+Homo sapiens	GRCh38-r89	Homo sapiens	/reference/homo_sapiens/ensembl/GRCh38/release-89/genome_idx/bwa/Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa	/reference/homo_sapiens/QDNAseq_bins/QDNAseq-bin_BSgenome.Hsapiens.NCBI.GRCh38_1000k.RDat
+Mus musculus	GRCm38-r86	Mus musculus	/reference/mus_musculus/ensembl/GRCm38/release-86/genome_idx/bwa/Mus_musculus.GRCm38.dna_sm.primary_assembly.fa	/reference/QDNAseq_bins/QDNAseq-bin_BSgenome.Mmusculus.UCSC.mm10_1000k.RDat
+Mus musculus_15k	GRCm38-r86	Mus musculus	/reference/mus_musculus/ensembl/GRCm38/release-86/genome_idx/bwa/Mus_musculus.GRCm38.dna_sm.primary_assembly.fa	/reference/QDNAseq_bins/QDNAseq-bin_BSgenome.Mmusculus.UCSC.mm10_15k.RDat
