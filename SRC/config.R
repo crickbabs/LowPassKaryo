@@ -19,15 +19,15 @@
 			###################################################################
 
 
-CONTACT.ADDRESS <- ##this email address will be included at the top of the report file as a first point of contact for queries.
+CONTACT.ADDRESS <- "l.conde@ucl.ac.uk" ##this email address will be included at the top of the report file as a first point of contact for queries.
 
 ##central source directory
-SOURCE.DIR <- ##absolute path to the directory containing the source files - by default it will be the directory containing this file
+SOURCE.DIR <- "/shared/ucl/depts/cancer/apps/LowPassKaryo/2021_01_20_b1d9dfd/LowPassKaryo-master/SRC/" ##absolute path to the directory containing the source files - by default it will be the directory containing this file
 
 
 ##need to document the script to generate this (or at least the file format)
 ##Absolute path to the genome lookup file -- see SetUp for details of the appropriate format for this file
-GENOMES.LOOKUP.FILE <- ##
+GENOMES.LOOKUP.FILE <- "/shared/ucl/depts/cancer/apps/LowPassKaryo/2021_01_20_b1d9dfd/LowPassKaryo-master/SRC/genome_lookup_table_myriad.txt" ##
 
 
 
@@ -35,13 +35,13 @@ GENOMES.LOOKUP.FILE <- ##
 ##The system specific call for each piece of software: basically, include here everything you would need to enter at the command line to invoke the tool, including loading 'modules' as appropriate.
 ##
 BINARY.CALLS <- list(
-			"RSCRIPT" = ##what would one type at the command line to start Rscript
+			"RSCRIPT" = "Rscript", ##what would one type at the command line to start Rscript
 ##e.g. under a module system one might need to set
 ##	"RCRIPT" = "module purge ; module use /tools/easybuild/modules/all ;  module load R/3.5.1-foss-2016b ; Rscript ",
-			"FASTQC" = ##Quality Control tool
-			"QCTRIM" = ##the quality/adapter trimming tool. Existing code will work with trimmomatic.
-			"ALN" = ##the alignment tool of choice - the existing code is set up to use bwa
-			"SAMTOOLS" = ##command to run samtools
+			"FASTQC" = "fastqc", ##Quality Control tool
+			"QCTRIM" = "trim_galore", ##the quality/adapter trimming tool. Existing code will work with trimmomatic.
+			"ALN" = "bwa", ##the alignment tool of choice - the existing code is set up to use bwa
+			"SAMTOOLS" = "samtools" ##command to run samtools
 			)
 
 

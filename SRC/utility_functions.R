@@ -223,7 +223,9 @@ genomes.ind <- grep("--available-genomes", passed.args)
 	{
 	MSG <- paste("List of available genomes requested: Currently valid genomes (and tags) are:\n", sep="")
 
-	MSG <- paste(MSG, print.available.genomes(GENOMES.LOOKUP.TABLE), "\n\n")
+#	MSG <- paste(MSG, print.available.genomes(GENOMES.LOOKUP.TABLE), "\n\n")
+	MSG <- paste(MSG, print.available.genomes(GENOMES.LOOKUP.FILE), "\n\n")
+
 
 	cat(MSG)
 	return(NA)

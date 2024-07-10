@@ -31,11 +31,10 @@ library(BSgenome)
 	###							###
 	###########################################################
 
-THIS.GENOME <- ##Internal Name for this genome build, e.g. "MM10", in the GENOME.SETS list below
-THIS.BIN.SIZE <- 20
-THIS.OUTDIR <- ##absolute path to your QDNASeq_bins directory
+THIS.GENOME <- "MM10" ##Internal Name for this genome build, e.g. "MM10", in the GENOME.SETS list below
+THIS.BIN.SIZE <- 1000
+THIS.OUTDIR <- "/lustre/projects/cancer/apps/LowPassKaryo/2021_01_20_b1d9dfd/qdnaseq_bins/" ##absolute path to your QDNASeq_bins directory
 MEAN.MAPPABILITY <- 97.28	##it would be nice to calculate this specifically
-
 
 
 	###########################################################################################################################
@@ -51,14 +50,13 @@ GENOME.SETS <- list(
 
 	"HG38" = list(
 			bsgenome = "BSgenome.Hsapiens.NCBI.GRCh38",
-			mappability.bed = ##absolute path tot he mappabaility bed file for this build,
+			mappability.bed = "/lustre/projects/cancer/apps/LowPassKaryo/2021_01_20_b1d9dfd/qdnaseq_bins/ENCFF011ZFS.bed", ##absolute path tot he mappabaility bed file for this build,
 			chr.to.filter = c("X", "Y")	##QDNASeq recomends the removal of sex chromosomes as they confound the normalisation process
 			),
 
-
 	"MM10" = list(
 			bsgenome = "BSgenome.Mmusculus.UCSC.mm10",
-			mappability.bed = ##absolute path tot he mappabaility bed file for this build,,
+			mappability.bed = "/lustre/projects/cancer/apps/LowPassKaryo/2021_01_20_b1d9dfd/qdnaseq_bins/ENCFF189JOV.bed", ##absolute path tot he mappabaility bed file for this build,,
 			chr.to.filter = c(	##QDNASeq recomends the removal of sex chromosomes as they confound the normalisation process
 						##we also remove floating contigs, etc
 						"X", "Y",

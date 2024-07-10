@@ -1,6 +1,8 @@
+#!/shared/ucl/depts/cancer/apps/LowPassKaryo/2021_01_20_b1d9dfd/lowpasskaryoenv/bin/Rscript 
+
 
 ##This will need to be customised to the site:
-SITE.CONFIG.FILE <- ##</absolute/path/to/config.R>
+SITE.CONFIG.FILE <- "/shared/ucl/depts/cancer/apps/LowPassKaryo/2021_01_20_b1d9dfd/LowPassKaryo-master/SRC/config.R" ##</absolute/path/to/config.R>
 source(SITE.CONFIG.FILE)
 
 				###
@@ -131,6 +133,7 @@ project.base <- sanitise.names(PARAMS[["PROJECT_NAME"]])$clean
 PARAMS[["PROJECT_ROOT"]] <- project.base
 
 PARAMS[["WORKING_DIR"]] <- paste(PARAMS[["OUTPUT_ROOT_DIR"]], PARAMS[["PROJECT_ROOT"]], "/", sep="")
+
 
 	if( !file.exists(PARAMS[["WORKING_DIR"]]) )
 	{
@@ -375,25 +378,18 @@ FORCE.SUMMARY.RUN <- FALSE	##if this is set to TRUE, then the summary job will b
 loc.max.threads <- DEFAULT.MAX.THREADS
 ##check to see if we can find a cpu setting in PARAMS[["SCHEDULER_OPTIONS"]]
 
-tmp <- unlist(strsplit(gsub(" +", " ", PARAMS[["SCHEDULER_OPTIONS"]]), split=" "))
+regex <- paste0(".*", THREADS.REGEXP, "(\\d+) .*")
+pe_value <- sub(regex, "\\1", PARAMS[["SCHEDULER_OPTIONS"]])
+TMP <- as.numeric(pe_value)
+if( is.na(TMP) ){
+	msg <- paste("Out of Coffee Error: could not infer a sensible number of CPUs from the following scheduler options:\n\t\"",
+				PARAMS[["SCHEDULER_OPTIONS"]], "\"\n", sep="")
 
-g <- grep(THREADS.REGEXP, tmp)
-	if(length(g) == 1 )
-	{
+	msg <- paste(msg, "\nTHREADS.REGEXP = `", THREADS.REGEXP, "`\n", sep="")
+	stop(msg)			
+}
+loc.max.threads <- TMP
 
-	TMP <- as.numeric(gsub(" +", "", gsub(THREADS.REGEXP, "", tmp[g])))
-	
-		if( is.na(TMP) )
-		{
-		msg <- paste("Out of Coffee Error: could not infer a sensible number of CPUs from the following scheduler options:\n\t\"",
-					PARAMS[[ "SCHEDULER_OPTIONS" ]], "\"\n", sep="")
-
-		msg <- paste(msg, "\ntmp[", g, "]==\"", tmp[g], "\"\n", sep="")
-		stop(msg)			
-		}
-
-	loc.max.threads <- TMP
-	}
 
 	if( SUBMIT.FROM.ENGINE )
 	{##give up a core for running the instance
@@ -401,6 +397,8 @@ g <- grep(THREADS.REGEXP, tmp)
 	loc.max.threads <- loc.max.threads -1
 	}
 
+
+	dir.create(paste0(PARAMS[["WORKING_DIR"]],"sge_logs"))
 
 	for(i in seq_along(LIMS.IDS))
 	{
@@ -411,13 +409,13 @@ g <- grep(THREADS.REGEXP, tmp)
 		if( TRUE || !file.exists(this.completed.file) )
 		{
 
-		this.log.file <- paste(PARAMS[["WORKING_DIR"]], "Engine_", this.lims.id, "_log.txt", sep="")
+		this.log.file <- paste(PARAMS[["WORKING_DIR"]], "sge_logs/Engine_", this.lims.id, "_log.txt", sep="")
 		re.run.ind <- 0
 			while( file.exists(this.log.file) )
 			{
 			re.run.ind <- re.run.ind + 1
 
-			this.log.file <- paste(PARAMS[["WORKING_DIR"]], "Engine_", this.lims.id, "_restart-", re.run.ind, "_log.txt", sep="")
+			this.log.file <- paste(PARAMS[["WORKING_DIR"]], "sge_logs/Engine_", this.lims.id, "_restart-", re.run.ind, "_log.txt", sep="")
 			}
 
 		FQ2 <- PARAMS[["FASTQ_FILES"]][i,2]
@@ -467,13 +465,12 @@ g <- grep(THREADS.REGEXP, tmp)
 							scheduler.options = PARAMS[["SCHEDULER_OPTIONS"]],
 							job.name = this.job.name,
 							log.file = this.log.file,
-							job.cmd = this.job.cmd
+							job.cmd = this.job.cmd,
+							params = PARAMS
 							)
 
-
-
 		S <- system(sub.cmd, intern=TRUE)
-		g <- grep("^Submitted batch job ", S)
+		g <- grep("has been submitted$", S)
 			if( length(g) == 0 )
 			{
 			msg <- paste("Error submitting job for \"", this.lims.id, "\"\n", sep="")
@@ -523,14 +520,15 @@ completion.file.name <- paste(PARAMS[["RESULTS_DIR"]],COMPLETION.MARKER.FILE.NAM
 						sep="")
 
 	this.job.name <- paste(PARAMS[["PROJECT_NAME"]], "_Summary", sep="")
-	this.log.file <- paste(PARAMS[["WORKING_DIR"]], "Project_", PARAMS[["PROJECT_NAME"]], "_Summary_Job_log.txt", sep="")
+	this.log.file <- paste(PARAMS[["WORKING_DIR"]], "sge_logs/Project_", PARAMS[["PROJECT_NAME"]], "_Summary_Job_log.txt", sep="")
 
 	sub.cmd <-  build.scheduler.submission(
 					scheduler.options = PARAMS[["SCHEDULER_OPTIONS"]],
 					dependencies = deps,
 					job.name =this.job.name,
 					log.file = this.log.file,
-					job.cmd = this.job.cmd
+					job.cmd = this.job.cmd,
+					params = PARAMS
 					)
 
 

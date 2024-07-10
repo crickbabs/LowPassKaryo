@@ -290,9 +290,9 @@ sorted.done <- paste(c(this.sorted[1:(L-1)], paste(".", this.sorted[L], ".done",
 
 
 	sort.cmd <- paste(PARAMS[["SAMTOOLS"]], " sort ",
+#					" -o ", gsub("\\.bam$", "", output.sorted), " ",
+					" -o ", output.sorted, " ",
 					input.bam, 
-					" ", gsub("\\.bam$", "", output.sorted), " ",
-					##" > ", output.sorted,
 					sep="")
 					
 	cat("Sorting bam file:\n\t\"", sort.cmd, "\"\n", sep="")

@@ -1,0 +1,3 @@
+Tag	Description	Species	Reference_Path	QDNAseq_Annotated_Bins_Path
+GRCh38	Homo sapiens GRCh38	Homo sapiens	/scratch/scratch/regmr01/AWS_iGenomes/references/Homo_sapiens/NCBI/GRCh38/Sequence/BWAIndex/genome.fa	/shared/ucl/depts/cancer/apps/LowPassKaryo/2021_01_20_b1d9dfd/qdnaseq_bins/QDNAseq-bin_BSgenome.Hsapiens.NCBI.GRCh38_1000k.RDat
+mm10	Mus musculus mm10	Mus musculus	/scratch/scratch/regmr01/AWS_iGenomes/references/Mus_musculus/UCSC/mm10/Sequence/BWAIndex/genome.fa	/shared/ucl/depts/cancer/apps/LowPassKaryo/2021_01_20_b1d9dfd/qdnaseq_bins/QDNAseq-bin_BSgenome.Mmusculus.UCSC.mm10_1000k.RDat
